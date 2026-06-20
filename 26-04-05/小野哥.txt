@@ -1,0 +1,25 @@
+昨天全人力开发PPT网站 做了整体总结
+
+遇到的问题
+docker compose up
+[+] Running 0/0
+ ⠋ Container banana-slides-backend Creating 0.0s
+Error response from daemon: Conflict. The container name "/banana-slides-backend" is already in use by container "13a2cd4233d12091556daf17d26ffa8fea6468731d45145740927380823ff2b7". You have to remove (or rename) that container to be able to reuse that name.
+
+
+docker ps -a 查看有哪些容器 然后删除同名容器
+docker rm -f c7765b351e2ff04f3fc842d7a0af0a39c3a800ba1bad0de91cbc0af9ee689bb6
+
+.env 文件的修改 不用重新build的
+
+今天做的主要内容包括把这个docker里面的服务搞清楚了，它的这个代码部署启动相关的一些操作，除了这个之外呢，给他这个PPT网站添加了账户登录积分的购买，目前主要是折腾了这一些，然后遗留的问题呢，主要有下面两点，主要是这个积分的购买，购买是跳转了stripe，但是stripe之后的这个web hook更新是有问题的。线上版正式的web hook是要求需要把这个web链web hook链接改为HTPS，但是咱们现在没有，那就需要我找一个之前的HTTPS的站做中转，这样才行。我计划还是说使用之前download的pilot那个页面，这个页面里面，它其实是有HTPS链接的，那我们继续保留它，然后让它做一次中转
+
+
+对于数据数据库这一块也有了了解，SQLite它这个数据库是文件型的，相对是一个小型数据库，它部署的时候也比较简单，把点DB文件弄到doer里面，弄到服务器上，它就能呃本机怎么跑线上他就怎么跑
+
+
+对这个PPT生成的网站也做了一系列优化，嗯，比如说像首页添加了预览入口，那多展示一些预览PPT，便于用户查看，提升他的这个预期度吧。他可能生成后会长这样，让他更好的更愿意点进去看
+
+
+像新用户登录完之后，他会送一个积分那一个积分是可以生成一张PPT的
+那还添加了一些预览功能，那比如说首页点进去的PPT，它是点一下它就只能进入到预览详情页，预览详情页呃是不能触发这个编辑跟图片生成的
